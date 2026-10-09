@@ -4,10 +4,7 @@ from collections import defaultdict
 from dbfread import DBF
 import csv
 
-CARPETA = Path(
-    r"D:\Universidad\Cursos\Inteligencia de Negocios"
-    r"\Semana 6\Proyecto\C34Data\tempc34"
-)
+CARPETA = Path(__file__).resolve().parents[2] / "C34Data" / "tempc34"
 
 SALIDA = CARPETA.parent / "inventario_dbf.csv"
 
