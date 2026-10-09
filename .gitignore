@@ -1,3 +1,23 @@
-/C34Data
-/migracion/perfil.json
-/.venv
+# Lista de archivos permitidos: todo lo demás es local por defecto.
+*
+!.gitignore
+!.gitattributes
+!README.md
+!requirements.txt
+!scripts/
+!scripts/**/
+!scripts/**/*.py
+!sql/
+!sql/**/
+!sql/**/*.sql
+
+# Exclusiones explícitas para datos, credenciales y archivos generados.
+/C34Data/
+/config/
+/local/
+/.venv/
+**/__pycache__/
+*.py[cod]
+.env*
+*.pem
+*.key

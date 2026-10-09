@@ -6,9 +6,9 @@ import hashlib
 import json
 from dbfread import DBF, FieldParser
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parents[2]
 SOURCE = ROOT / 'C34Data' / 'tempc34'
-OUT = Path(__file__).resolve().parent
+OUT = ROOT / 'local' / 'reportes'
 
 
 class ExactParser(FieldParser):
@@ -189,6 +189,7 @@ def build_relations(tables):
 
 
 def main():
+    OUT.mkdir(parents=True, exist_ok=True)
     source_files = sorted(p for p in SOURCE.iterdir() if p.suffix.upper() in ('.DBF','.FPT'))
     hashes = {p.name:digest(p) for p in source_files}
     tables = {}
@@ -262,7 +263,9 @@ def generate_sql(tables, rels):
         if r['estado']!='COMPATIBLE_EN_DATOS':
             lines += [f"-- {r['estado']}: evaluadas={r['evaluadas']}, vacías={r['vacias']}, huérfanas={r['huerfanas']}, duplicadas padre={r['duplicadas_padre']}, vacías padre={r['vacias_padre']}.",
                       '-- '+fk_sql(r,f'FK_PROPUESTA_{i}')]
-    (OUT/'C34_tablas_relaciones.sql').write_text('\n'.join(lines)+'\n',encoding='utf-8-sig')
+    sql_dir = ROOT / 'sql' / 'referencia'
+    sql_dir.mkdir(parents=True, exist_ok=True)
+    (sql_dir/'C34_tablas_relaciones.sql').write_text('\n'.join(lines)+'\n',encoding='utf-8-sig')
 
 
 def fk_sql(r,name):
